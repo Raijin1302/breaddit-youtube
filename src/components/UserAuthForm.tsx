@@ -40,7 +40,10 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
     }
   }
   return (
-    <div className={cn("flex justify-center gap-5", className)} {...props}>
+    <div
+      className={cn("flex flex-col justify-center gap-5", className)}
+      {...props}
+    >
       <Button
         onClick={loginWithGoogle}
         isLoading={isLoading}
