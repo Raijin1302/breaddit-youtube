@@ -11,6 +11,11 @@ datasource db {
   relationMode = "prisma"
 }
 
+enum VoteType {
+  UP
+  DOWN
+}
+
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
   userId            String  @db.ObjectId
@@ -39,12 +44,91 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  username      String?   @unique
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id                String         @id @default(auto()) @map("_id") @db.ObjectId
+  name              String?
+  email             String?        @unique
+  emailVerified     DateTime?
+  createdSubreddits Subreddit[]    @relation("CreatedBy")
+  subscriptions     Subscription[]
+  votes             Vote[]
+
+  username String? @unique
+
+  image       String?
+  accounts    Account[]
+  sessions    Session[]
+  Post        Post[]
+  Comment     Comment[]
+  CommentVote CommentVote[]
+}
+
+model Subreddit {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts     Post[]
+
+  creatorId   String?        @db.ObjectId
+  Creator     User?          @relation("CreatedBy", fields: [creatorId], references: [id])
+  subscribers Subscription[]
+
+  @@index([name])
+}
+
+model Subscription {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String    @db.ObjectId
+  subreddit   Subreddit @relation(fields: [subredditId], references: [id])
+  subredditId String    @db.ObjectId
+}
+
+model Post {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  content     Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  author      User      @relation(fields: [authorId], references: [id])
+  authorId    String    @db.ObjectId
+  subreddit   Subreddit @relation(fields: [subredditId], references: [id])
+  subredditId String    @db.ObjectId
+  comments    Comment[]
+  votes       Vote[]
+}
+
+model Comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  text      String
+  createdAt DateTime @default(now())
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String   @db.ObjectId
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    String   @db.ObjectId
+
+  replyToId String?   @db.ObjectId
+  replyTo   Comment?  @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies   Comment[] @relation("ReplyTo")
+
+  votes     CommentVote[]
+  commentId String?
+}
+
+model Vote {
+  id     String   @id @default(auto()) @map("_id") @db.ObjectId
+  user   User     @relation(fields: [userId], references: [id])
+  userId String   @db.ObjectId
+  post   Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String   @db.ObjectId
+  type   VoteType
+}
+
+model CommentVote {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.ObjectId
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String   @db.ObjectId
+  type      VoteType
 }
