@@ -19,16 +19,29 @@ export async function POST(req: Request) {
       },
     })
 
-    if (subBreadditExist) {
-      return new Response("You're already subscribed to this subreddit", {
+    if (!subBreadditExist) {
+      return new Response("You're not subscribed to this subreddit", {
         status: 400,
       })
     }
 
-    await db.subscription.create({
-      data: {
-        subredditId,
-        userId: session.user.id,
+    // create subreddit and associate it with the user
+    // const subscription = await db.subscription.findFirst({
+    //   where: {
+    //     subredditId,
+    //     userId: session.user.id,
+    //   },
+    // })
+
+    // if (!subscription) {
+    //   return new Response("You're not subscribed to this subreddit", {
+    //     status: 400,
+    //   })
+    // }
+
+    await db.subscription.delete({
+      where: {
+        id: subBreadditExist.id,
       },
     })
 
