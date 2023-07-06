@@ -25,20 +25,6 @@ export async function POST(req: Request) {
       })
     }
 
-    // create subreddit and associate it with the user
-    // const subscription = await db.subscription.findFirst({
-    //   where: {
-    //     subredditId,
-    //     userId: session.user.id,
-    //   },
-    // })
-
-    // if (!subscription) {
-    //   return new Response("You're not subscribed to this subreddit", {
-    //     status: 400,
-    //   })
-    // }
-
     await db.subscription.delete({
       where: {
         id: subBreadditExist.id,
