@@ -7,6 +7,7 @@ import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config"
 import axios from "axios"
 import { getAuthSession } from "@/lib/auth"
 import { useSession } from "next-auth/react"
+import Post from "./Post"
 interface PostFeedProps {
   initialPost: ExtendedPost[]
   subredditName?: string
@@ -53,7 +54,16 @@ const PostFeed: FC<PostFeedProps> = ({ initialPost, subredditName }) => {
         const currentVote = post.votes.find(
           (vote) => vote.userId === session?.user.id
         )
-        return <div>Post</div>
+
+        if (index === posts.length - 1) {
+          return (
+            <li key={post.id} ref={ref}>
+              <Post post={post} subredditName={post.subreddit.name} />
+            </li>
+          )
+        } else {
+          return <Post post={post} subredditName={post.subreddit.name} />
+        }
       })}
     </ul>
   )
