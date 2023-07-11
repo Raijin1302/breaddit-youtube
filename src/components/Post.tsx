@@ -2,6 +2,7 @@ import { formatTimeToNow } from "@/lib/utils"
 import { Post, User, Vote } from "@prisma/client"
 import { MessageSquare } from "lucide-react"
 import { FC, useRef } from "react"
+import EditorOutput from "./EditorOutput"
 
 interface PostProps {
   subredditName: string
@@ -9,9 +10,10 @@ interface PostProps {
     author: User
     votes: Vote[]
   }
+  commentAmt: number
 }
 
-const Post: FC<PostProps> = ({ subredditName, post }) => {
+const Post: FC<PostProps> = ({ subredditName, post, commentAmt }) => {
   const pRef = useRef<HTMLDivElement>(null)
   return (
     <div className="rounded-md bg-white shadow">
@@ -43,6 +45,7 @@ const Post: FC<PostProps> = ({ subredditName, post }) => {
             className="relative text-sm max-h-40 w-full overflow-clip"
             ref={pRef}
           >
+            <EditorOutput content={post.content} />
             {pRef.current?.clientHeight === 160 ? (
               <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent"></div>
             ) : null}
@@ -54,7 +57,7 @@ const Post: FC<PostProps> = ({ subredditName, post }) => {
           className="w-fit flex items-center gap-2"
           href={`/r/${subredditName}/post/${post.id}`}
         >
-          <MessageSquare className="h-4 w-4" />
+          <MessageSquare className="h-4 w-4" /> {commentAmt} comments
         </a>
       </div>
     </div>

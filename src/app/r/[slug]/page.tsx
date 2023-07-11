@@ -24,7 +24,7 @@ const page = async ({ params }: pageProps) => {
           comments: true,
           subreddit: true,
         },
-        take: INFINITE_SCROLLING_PAGINATION_RESULTS,
+        take: 5,
       },
     },
   })
