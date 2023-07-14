@@ -25,7 +25,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPost, subredditName }) => {
     ["infinite-query"],
     async ({ pageParam = 1 }) => {
       const query =
-        `/api/post?limit=${INFINITE_SCROLLING_PAGINATION_RESULTS}&page=${pageParam}` +
+        `/api/posts?limit=${INFINITE_SCROLLING_PAGINATION_RESULTS}&page=${pageParam}` +
         (!!subredditName ? `&subredditName=${subredditName}` : "")
 
       const { data } = await axios.get(query)
@@ -41,6 +41,9 @@ const PostFeed: FC<PostFeedProps> = ({ initialPost, subredditName }) => {
   )
 
   const posts = data?.pages.flatMap((page) => page) ?? initialPost
+
+  console.log(data)
+
   return (
     <ul className="flex flex-col col-span-2 space-y-6">
       {posts.map((post, index) => {
@@ -59,6 +62,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPost, subredditName }) => {
           return (
             <li key={post.id} ref={ref}>
               <Post
+                votesAmt={votesAmt}
                 commentAmt={post.comments.length}
                 post={post}
                 subredditName={post.subreddit.name}
@@ -68,6 +72,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPost, subredditName }) => {
         } else {
           return (
             <Post
+              votesAmt={votesAmt}
               commentAmt={post.comments.length}
               post={post}
               subredditName={post.subreddit.name}
