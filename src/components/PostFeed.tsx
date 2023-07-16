@@ -5,7 +5,6 @@ import { useIntersection } from "@mantine/hooks"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config"
 import axios from "axios"
-import { getAuthSession } from "@/lib/auth"
 import { useSession } from "next-auth/react"
 import Post from "./Post"
 interface PostFeedProps {
@@ -20,6 +19,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPost, subredditName }) => {
     threshold: 1,
   })
   //For client side using useSession()
+
   const { data: session } = useSession()
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     ["infinite-query"],
