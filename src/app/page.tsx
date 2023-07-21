@@ -9,10 +9,13 @@ export default async function Home() {
   const session = await getAuthSession()
   return (
     <>
-      <h1 className="font-bold text-3xl md:text-4xl">Your Feed</h1>
+      <h1 className="font-bold text-3xl md:text-4xl">
+        {session ? "Your Feed" : "Seem something updated"}
+      </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
         {/* @ts-expect-error server component */}
         {session ? <CustomFeed /> : <GeneralFeed />}
+
         {/* subreddit info */}
         <div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
           <div className="bg-emerald-100 px-6 py-4">
