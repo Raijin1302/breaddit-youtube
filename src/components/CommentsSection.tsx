@@ -11,13 +11,14 @@ const CommentsSection = async ({ postId }: CommentsSectionProps) => {
   const session = await getAuthSession()
   const comments = await db.comment.findMany({
     where: {
-      postId,
-      replyToId: null,
+      postId: postId,
+      //replyToId: null,
     },
     include: {
       author: true,
       votes: true,
       replies: {
+        // first level replies
         include: {
           author: true,
           votes: true,
@@ -25,11 +26,10 @@ const CommentsSection = async ({ postId }: CommentsSectionProps) => {
       },
     },
   })
+
   return (
     <div className="flex flex-col gap-y-4 mt-4">
       <hr className="w-full h-px my-6" />
-      {/* Creat comment */}
-      <CreateComment />
 
       <div className="flex flex-col gap-y-6 mt-4">
         {comments
@@ -47,15 +47,23 @@ const CommentsSection = async ({ postId }: CommentsSectionProps) => {
             const topLvCommentVote = topLvComment.votes.find(
               (vote) => vote.userId === session?.user.id
             )
+
             return (
               <div key={topLvComment.id} className="flex flex-col">
                 <div className="mb-2">
-                  <PostComment comment={topLvComment} />
+                  <PostComment
+                    comment={topLvComment}
+                    postId={postId}
+                    currentVote={topLvCommentVote}
+                    votesAmt={topLvCommentVotesAmt}
+                  />
                 </div>
               </div>
             )
           })}
       </div>
+      {/* Creat comment */}
+      <CreateComment postId={postId} />
     </div>
   )
 }
