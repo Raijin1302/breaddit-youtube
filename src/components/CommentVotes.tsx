@@ -2,7 +2,7 @@
 import { useCustomToast } from "@/hooks/use-custom-toast"
 import { usePrevious } from "@mantine/hooks"
 import { CommentVote, VoteType } from "@prisma/client"
-import { FC, useEffect, useState } from "react"
+import { FC, useState } from "react"
 import { ArrowBigDown, ArrowBigUp } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useMutation } from "@tanstack/react-query"

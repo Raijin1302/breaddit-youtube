@@ -26,7 +26,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
   }, 500)
   const debounceRequest = useCallback(() => {
     request()
-  }, [])
+  }, [request])
   const {
     data: queryResults,
     isFetched,
