@@ -1,4 +1,4 @@
-import { Vote, VoteType } from "@prisma/client"
+import { VoteType } from "@prisma/client"
 
 export type CachedPost = {
   id: string
