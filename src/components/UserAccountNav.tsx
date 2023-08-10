@@ -35,6 +35,7 @@ const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
           </div>
         </div>
         <DropdownMenuSeparator />
+
         <DropdownMenuItem asChild>
           <Link href="/">Feed</Link>
         </DropdownMenuItem>

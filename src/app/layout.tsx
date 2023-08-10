@@ -20,11 +20,11 @@ export default function RootLayout({
     <html
       lang="en"
       className={cn(
-        "bg-white text-slate-900 antialiased light",
+        "bg-white dark:bg-slate-900 text-slate-900 antialiased light",
         jost.className
       )}
     >
-      <body className="min-h-screen pt-12 bg-slate-50 antialiased">
+      <body className="min-h-screen pt-12 bg-slate-50 dark:bg-slate-900 antialiased">
         <Provider>
           {/* @ts-expect-error Server Component */}
           <Navbar />
@@ -34,6 +34,7 @@ export default function RootLayout({
           </div>
           <Toaster />
         </Provider>
+        {/* Allow for more height on mobile devices */}
       </body>
     </html>
   )
