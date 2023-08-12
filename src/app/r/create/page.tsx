@@ -54,8 +54,8 @@ const Page = ({}) => {
     },
   })
   return (
-    <div className="container flex items-center h-full max-w-3xl mx-auto">
-      <div className="relative bg-white w-full h-fit p-4 rounded-lg space-y-6">
+    <div className="container flex items-center h-full max-w-3xl mx-auto ">
+      <div className="relative bg-card text-card-foreground shadow-sm w-full h-fit p-4 rounded-lg space-y-6">
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-semibold">Create a community</h1>
         </div>
@@ -84,6 +84,7 @@ const Page = ({}) => {
             isLoading={isLoading}
             disabled={input.length === 0}
             onClick={() => createCommunity()}
+            className="dark:bg-emerald-100 dark:text-zinc-700"
           >
             Create Community
           </Button>

@@ -23,12 +23,15 @@ const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
       <DropdownMenuTrigger>
         <UserAvatar className="h-8 w-8 mr-6" user={user} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-white" align="end">
+      <DropdownMenuContent
+        className="bg-card text-card-foreground shadow-sm"
+        align="end"
+      >
         <div className="flex items-center justify-start gap-2 p-2">
           <div className="flex flex-col space-y-1 leading-none">
             {user.name && <p className="font-medium">{user.name}</p>}
             {user.email && (
-              <p className="truncate w-[200px] text-sm text-zinc-700">
+              <p className="truncate w-[200px] text-sm text-zinc-700 dark:text-zinc-50">
                 {user.email}
               </p>
             )}

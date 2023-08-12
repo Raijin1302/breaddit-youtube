@@ -57,13 +57,13 @@ const page = async ({ params }: pageProps) => {
           }}
         />
       </Suspense>
-      <div className="sm:w-0 w-full flex-1 bg-white p-4 rounded-sm">
+      <div className="sm:w-0 w-full flex-1 bg-card text-card-foreground shadow-sm p-4 rounded-sm">
         <p className="max-h-40 mt-1 truncate text-xs text-gray-500">
           Post by u/{post?.author.username ?? cachedPost.authorUsername}
           {""}{" "}
           {formatTimeToNow(new Date(post?.createdAt ?? cachedPost.createdAt))}
         </p>
-        <h1 className="text-xl font-semibold py-2 leading-6 text-gray-900">
+        <h1 className="text-xl font-semibold py-2 leading-6 text-gray-900 dark:text-zinc-300">
           {post?.title ?? cachedPost.title}
         </h1>
         <EditorOutput content={post?.content ?? cachedPost.content} />
